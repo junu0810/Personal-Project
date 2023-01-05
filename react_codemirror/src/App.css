@@ -1,0 +1,130 @@
+.mainTitle {
+    color: white;
+    background-color: rgb(60, 60, 60);
+    height: 35px;
+    font-size: large;
+    padding-top: 10px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.subTitle {
+    color: white;
+    background-color: rgb(37, 37, 37);
+    height: 25px;
+    font-size: medium;
+    padding-top: 5px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.dashboard {
+    display: flex;
+    /* justify-content: center; */
+    height: 100vh;
+    width:100vw;
+}
+
+.question{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    /* height: 100vh; */
+
+    padding-right: 5vw;
+
+    border-right: 2vh;
+    border:rgb(37,37, 37) 10px solid;
+    
+}
+
+.problem {
+    padding-left: 20px;
+}
+
+.example{
+    padding-left: 20px;
+}
+
+
+.codingIDE {
+    width: 60%;
+    /* height: 150vh; */
+    background-color: #223476;
+}
+
+.CodeMirror{
+    font-family: Arial, monospace;
+    font-size: 20px;
+}
+
+.BtnArea {
+   background-color:  rgb(37, 37, 37);
+   height: 5vh;
+}
+
+.runBtn{
+    font-family:sans-serif;
+    font-size: medium;
+
+    border: none;
+
+    background-color:  rgb(37, 37, 37);
+    color :white;
+    width: 7vw;
+    height: 5vh; 
+}
+
+.runBtn:hover{
+    color: white;
+    border-bottom: 5px;
+    border:solid;
+}
+
+.runBtn:active {
+    color: black;
+    box-shadow: 0 0 #74a3b0;
+    background-color: #80C49D;
+}
+
+.okele {
+    display: flex;
+
+    align-items : center;
+    
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    margin-left: 2vw;
+
+    padding-left: 20px;
+
+    background-color: #71e46d;
+
+    font-family: Arial, monospace;
+    text-align: center;
+    width: 47vw;
+    height: 5vh;
+
+    border-radius: 5%;
+}
+
+.wrongele{
+    display: flex;
+    
+    align-items : center;
+
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    margin-left: 2vw;
+
+    padding-left: 20px;
+
+    background-color: #e48568;
+
+    font-family: Arial, monospace;
+    text-align: center;
+    width: 47vw;
+    height: 5vh;
+
+    border-radius: 5%;
+}
