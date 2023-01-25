@@ -21,11 +21,25 @@ const httpServer = http.createServer(app);
 const wsServer = SocketIO(httpServer);
 
 wsServer.on("connection" , socket => {
-    socket.on("join_room" , (roomName , done ) => {
+    // 1. A 컴퓨터가 방을 만들고 들어온다
+    // 3. B 컴퓨터가 들어간다.
+    socket.on("join_room" , (roomName) => {
+        // 2. A가 roomName에 들어간다 동시에 roomName에 welcome이 emit 된다. (A 컴퓨터는 들어가는중에 emit되었으므로 welcome을 못받는다.)
         socket.join(roomName);
-        done();
+        // 4. B는 join으로 방을 들어가고 이미 방에 있는 A는 welcome을 emit 받는다.
         socket.to(roomName).emit("welcome")
     })
+    // 7. A에게 받은 offer를 방전체에게 보낸다.
+    socket.on("offer" , (offer , roomName ) => {
+        socket.to(roomName).emit("offer" , offer);
+    }) 
+    // 10. B의 answer를 받으면 방 유저에게 answer르 보낸다.
+    socket.on("answer" , (answer , roomName) => {
+        socket.to(roomName).emit("answer" , answer)
+    })
+    socket.on("ice" , (ice , roomName) => {
+        socket.to(roomName).emit("ice" , ice);
+    });
 })
 
 // use Socket.io ChatRoom
