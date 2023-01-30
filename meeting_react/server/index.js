@@ -12,8 +12,28 @@ const wsServer = new Server(httpServer ,{
         }
     });
 
+let Name;
 wsServer.on("connection" , (socket) => {
     console.log(`user Connected ${socket.id}`);
+
+    socket.onAny((event) => {
+        console.log(`Socket Event : ${event}`)
+    })
+
+    socket.on("enter_room" , (roomName , done)=>{
+        Name = roomName;
+        socket.join(roomName)
+        done();
+        console.log(roomName);
+    })
+
+    socket.on("send_message" , (message) => {
+        socket.to(Name).emit("new_message" , message);
+    })
+
+    socket.on("disconnect" , () => {
+        console.log("Disconnected")
+    })
 })
 
 

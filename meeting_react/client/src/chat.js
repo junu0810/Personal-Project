@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
-import io from 'socket.io-client';
 
+function Chat({ socket , setChatList , chatList }) {
 
-
-function Chat() {
-    
-    //config Socket.IO
-    const socket = io.connect("http://localhost:8080");
-
-    const [message , setMessage] = useState("")
-
-    
+    const [message , setMessage] = useState("")   
     
     function sendMessage(event){
         event.preventDefault();
         console.log(message);
         setMessage("");
-        socket.emit("send_message", { message: 'Hello' });
-          
+        setChatList([...chatList , `나 : ${message}`])
+        socket.emit("send_message", { message: message });
     }
 
     function inputChange(e) {
