@@ -8,14 +8,14 @@ function App() {
   const [items, setItems] = useState([]);
   const [sendMsg, setSendMsg] = useState(false);
 
-  const socketURL = "ws://localhost:8080/ws/chat";
+  const socketURL = "ws://localhost:8080/socket";
   let ws = useRef(null);
   
   useEffect(() => {
     if(!ws.current){
       ws.current = new WebSocket(socketURL);
       ws.current.onopen = () => {
-        console.log(`connected to ${WebSocket}`);
+        console.log(WebSocket.prototype);
         setConnected(true);
       ws.current.onclose = (error) => {
         console.log("disconnect from " + socketURL);
@@ -41,7 +41,7 @@ function App() {
     if (connected) {
       ws.current.send(
         JSON.stringify({
-          message: "sendMessage",
+          message: "연결 완료",
         })
       );
 
@@ -49,9 +49,17 @@ function App() {
     }
   }, [connected]);
 
-  const inputData = (event) => {
+  const sendData = (event) => {
     console.log(chat)
     event.preventDefault()
+    if(connected){
+      ws.current.send(
+        JSON.stringify({
+        message: chat
+      }))
+
+      setChat("")
+    }
   } 
 
   const inputChange = (event) => {
@@ -62,10 +70,18 @@ function App() {
 
   return (
     <div>
+      {connected ? 
+        <div>연결이 완료되었습니다.</div> :
+        <div>연결 대기중입니다.</div>}
     <form> 
-      <input onChange={inputChange}/>
-      <button onClick={inputData}>전송</button>
+      <input onChange={inputChange} value={chat}/>
+      <button onClick={sendData}>전송</button>
     </form>
+    <div>
+        {items.map((item , ind) => {
+          return <div key={ind}>{JSON.stringify(item)}</div>;
+        })}
+    </div>
     </div>
   );
 }
