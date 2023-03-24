@@ -1,10 +1,9 @@
 package com.example.mongosocket.chat.Dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class CreateRoom {
+public class CreateRoomDto {
     private String room_name;
-    
+
 }

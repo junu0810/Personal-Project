@@ -1,23 +1,26 @@
 package com.example.mongosocket.chat.model;
 
+import com.example.mongosocket.chat.Dto.CreateRoomDto;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import org.springframework.data.annotation.Id;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
-@Data
+
+@Getter
+@Builder
 public class ChatRoom {
-    private String roomId; // 채팅방 아이디
-    private String roomName; // 채팅방 이름
-    private long userCount; // 채팅방 인원수
-    private HashMap<String, String> userList = new HashMap<String, String>();
+    @Id
+    private String room_id; // 채팅방 아이디
+    private String room_name; // 채팅방 이름
+    private int user_count; // 채팅방 유저 수
 
-    public ChatRoom create(String roomName){
-        ChatRoom chatRoom = new ChatRoom();
-        chatRoom.roomId = UUID.randomUUID().toString();
-        chatRoom.roomName = roomName;
-
-        return chatRoom;
+    public static ChatRoom createRoom(CreateRoomDto createRoomDto){
+        return ChatRoom.builder()
+                .room_name(createRoomDto.getRoom_name())
+                .user_count(0)
+                .build();
     }
+
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ChatRooomRepository extends MongoRepository<ChatRoom, String> {
-    public List<ChatRoom> findAll();
+public interface ChatRoomRepository extends MongoRepository<ChatRoom, String> {
+    List<ChatRoom> findAll();
 
 }

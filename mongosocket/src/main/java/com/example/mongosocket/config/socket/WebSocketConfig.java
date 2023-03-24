@@ -6,8 +6,6 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
 
 
-import java.lang.annotation.Annotation;
-
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSocketMessageBroker

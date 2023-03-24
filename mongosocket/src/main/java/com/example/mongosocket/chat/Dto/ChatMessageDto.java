@@ -1,7 +1,8 @@
 package com.example.mongosocket.chat.Dto;
 
-import com.example.mongosocket.chat.model.MessageType;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -9,9 +10,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMessageDto {
-
-    private MessageType type;
-    private String content;
-    private String sender;
+    private String room_id;
+    private String message;
+    private String writer;
+    private LocalDateTime created_at;
 
 }

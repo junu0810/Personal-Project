@@ -1,48 +1,49 @@
 package com.example.mongosocket.chat.controller;
 
-import com.example.mongosocket.chat.Dto.ChatMessageDto;
-import com.example.mongosocket.chat.model.ChatItem;
+import com.example.mongosocket.chat.Dto.CreateRoomDto;
+import com.example.mongosocket.chat.model.ChatMessage;
 import com.example.mongosocket.chat.model.ChatRoom;
-import com.example.mongosocket.chat.repository.ChatRepository;
-import com.example.mongosocket.chat.repository.StaticChatRepository;
+import com.example.mongosocket.chat.repository.ChatMessageRepository;
+import com.example.mongosocket.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
-
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.socket.messaging.SessionConnectEvent;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class ChatController {
     // MongoDB Test
-    private final ChatRepository chatRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
-    @PostMapping("/mongotest")
-    public void insertData(){
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/makeRoom")
+    public List<ChatRoom> createRoom(@RequestBody CreateRoomDto createRoom){
+        log.info(createRoom.toString());
+        chatRoomRepository.save(ChatRoom.createRoom(createRoom));
+        return chatRoomRepository.findAll();
+    }
 
-        ChatItem testData = ChatItem.builder()
-                .name("Test")
-                .category("Demo")
-                .build();
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/roomList")
+    public List<ChatRoom> roomList(){
+        return chatRoomRepository.findAll();
+    }
 
-        chatRepository.save(testData);
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/chatList")
+    public ChatMessage chatList(@RequestParam String room_id){
+       return chatMessageRepository.findByRoomId(room_id).orElseGet(ChatMessage::createEmpty);
     }
 
     @GetMapping("/mongoData")
-    public List<ChatItem> getDataList() {
+    public void getDataList() {
 
-        return chatRepository.findAll();
+
     }
 
 }
