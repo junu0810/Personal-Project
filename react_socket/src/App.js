@@ -1,118 +1,88 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import Media from './Media';
+import RoomList from './components/RoomList'
 import * as StompJs from "@stomp/stompjs";
-import * as SockJS from "sockjs-client";
+import base from "./config/baseURL.json"
+
 
 function App() {
 
-  const [chat, setChat] = useState("");
   const [connected, setConnected] = useState(false);
-  const [items, setItems] = useState([]);
   const [nickName, setNickName] = useState("")
-  const [checkName, setCheck] = useState(false);
+  const [checkName, setCheckName] = useState(false);
 
   let ws = useRef(null);
   let userName = useRef("");
 
-
-  // useEffect(() => {
-  //   if (!ws.current) {
-  //     ws.current = new SockJs(socketURL);
-  //     ws.current.onopen = () => {
-  //       console.log(WebSocket.prototype);
-  //       setConnected(true);
-  //       ws.current.onclose = (error) => {
-  //         console.log("disconnect from " + socketURL);
-  //         console.log(error);
-  //       };
-  //       ws.current.onerror = (error) => {
-  //         console.log("connection error " + socketURL);
-  //         console.log(error);
-  //       };
-  //       ws.current.onmessage = (event) => {
-  //         const data = JSON.parse(event.data);
-  //         console.log(chat);
-  //         setItems((prevItems) => [...prevItems, data]);
-  //       };
-  //     };
-
-  //   }
-  // }, [chat, checkName]);
-
   const connect = () => {
     ws.current = new StompJs.Client({
-      brokerURL: 'ws://localhost:8080/ws',
+      brokerURL: `ws://${base.baseURL}/ws`,
+      heartbeatIncoming: 0,
+      heartbeatOutgoing: 20000,
       onConnect: () => {
-        console.log('success');
+        setConnected(true);
       },
+      onDisconnect: () => {
+        console.log("disconnect")
+      }
     });
     ws.current.activate();
-  };  
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     connect();
-  },[])
+    return () => {
+      ws.current.deactivate();
+    }
+  }, [])
 
-
-const sendData = (event) => {
-  event.preventDefault()
-  if (connected) {
-    let message = {}
-    message[nickName] = chat
-    ws.current.send(JSON.stringify(message))
-    setChat("")
+  const changeNickName = (event) => {
+    const { target: { value } } = event;
+    setNickName(value);
   }
-}
 
-const inputChange = (event) => {
-  const { target: { value } } = event;
-  setChat(value);
-}
+  const inputNickname = (event) => {
+    event.preventDefault()
+    console.log(nickName.length)
+    if(nickName.length !== 0){
+      userName.current = nickName;
+      setCheckName(true)
+    }
+    else {
+      alert("닉네임을 입력하세요")
+    }
+  }
 
-const changeNickName = (event) => {
-  const { target: { value } } = event;
-  setNickName(value);
-}
-
-const inputNickname = (event) => {
-  event.preventDefault()
-  userName.current = nickName;
-  setCheck(true)
-}
-
-return (
-  <div>
-    {connected ?
-      <div>
-        <div>연결이 완료되었습니다.</div>
-        {
-          checkName === false
-            ?
-            <form onSubmit={inputNickname}>
-              <input onChange={changeNickName} placeholder="닉네임을 설정하세요" />
-              <button type="submit">닉네임 설정</button>
-            </form>
-            :
-            <div>
-              <p>{`사용중인 닉네임 : ${nickName}`}</p>
-              <form onSubmit={sendData}>
-                <input onChange={inputChange} value={chat} />
-                <button type="submit">전송</button>
-              </form>
-            </div>
-        }
+  return (
+    <div>
+      {connected ?
         <div>
-          {items.map((item, ind) => {
-            return <p key={ind}>{JSON.stringify(item)}</p>;
-          })}
+          <div>연결이 완료되었습니다.</div>
+          {
+            checkName === false
+              ?
+              <form onSubmit={inputNickname}>
+                <input 
+                  onChange={changeNickName} 
+                  placeholder="닉네임을 설정하세요" 
+                />
+                <button type="submit">닉네임 설정</button>
+              </form>
+              :
+              <div>
+                <p>{`닉네임 : ${nickName}`}</p>
+                <RoomList 
+                  ws={ws}
+                  nickName={nickName}  
+                />
+              </div>
+          }
+          {/* <Media /> */}
         </div>
-        <Media />
-      </div>
-      :
-      <div>연결 대기중입니다.</div>}
-  </div>
-);
+        :
+        <div>연결 대기중입니다.</div>}
+    </div>
+  );
 }
 
 export default App;
