@@ -8,13 +8,10 @@ const RoomList = ({ items, nickName, ws }) => {
     const [roomName, setRoomName] = useState("");
     const [roomList, setRoomList] = useState([]);
 
-
-
     const inputRoomName = (event) => {
         const { target: { value } } = event;
         setRoomName(value);
     }
-
 
     const sendRoomName = async (event) => {
         event.preventDefault()

@@ -1,4 +1,4 @@
-package com.example.mongosocket.chat.model;
+package com.example.mongosocket.chat.model.mongodb;
 
 import com.example.mongosocket.chat.Dto.ChatMessageDto;
 import lombok.Builder;

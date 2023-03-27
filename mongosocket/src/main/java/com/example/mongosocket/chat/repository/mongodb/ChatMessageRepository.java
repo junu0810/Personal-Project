@@ -1,6 +1,6 @@
-package com.example.mongosocket.chat.repository;
+package com.example.mongosocket.chat.repository.mongodb;
 
-import com.example.mongosocket.chat.model.ChatMessage;
+import com.example.mongosocket.chat.model.mongodb.ChatMessage;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

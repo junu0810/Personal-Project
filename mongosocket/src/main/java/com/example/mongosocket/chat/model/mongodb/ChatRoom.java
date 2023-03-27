@@ -1,8 +1,7 @@
-package com.example.mongosocket.chat.model;
+package com.example.mongosocket.chat.model.mongodb;
 
 import com.example.mongosocket.chat.Dto.CreateRoomDto;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 

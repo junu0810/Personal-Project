@@ -1,4 +1,4 @@
-package com.example.mongosocket.chat.model;
+package com.example.mongosocket.chat.model.mongodb;
 
 import org.springframework.data.annotation.Id;
 

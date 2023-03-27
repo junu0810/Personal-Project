@@ -43,7 +43,6 @@ function App() {
 
   const inputNickname = (event) => {
     event.preventDefault()
-    console.log(nickName.length)
     if(nickName.length !== 0){
       userName.current = nickName;
       setCheckName(true)

@@ -1,9 +1,8 @@
-package com.example.mongosocket.chat.model;
+package com.example.mongosocket.chat.model.mongodb;
 
 import com.example.mongosocket.chat.Dto.ChatMessageDto;
 import lombok.Builder;
 import lombok.Data;
-import org.apache.logging.log4j.message.Message;
 
 import java.time.LocalDateTime;
 
